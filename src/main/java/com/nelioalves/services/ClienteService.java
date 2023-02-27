@@ -16,7 +16,7 @@ public class ClienteService {
 	private ClienteRepository repo;
 	
 	//recebe um id e retorna o cliente correspondente. se nao encontrar lanca excecao
-	public Cliente buscar(Integer id) {
+	public Cliente find(Integer id) {
 		Optional<Cliente> obj = repo.findById(id);
 		return obj.orElseThrow(() -> new com.nelioalves.services.exceptions.ObjectNotFoundException(
 				 "Objeto não encontrado! Id: " + id + ", Tipo: " + Cliente.class.getName()));
