@@ -11,6 +11,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.nelioalves.domain.enums.EstadoPagamento;
 
 //coloca como abstract para garantir que sempre seja instanciada a superclasse  pagamento com um new apontando a subclasse (pagamentoComBoleto ou pagamentoComCartao)
@@ -24,6 +25,7 @@ public abstract class Pagamento implements Serializable{
 	private Integer id;
 	private Integer estado;
 	
+	@JsonIgnore
 	@OneToOne
 	@JoinColumn(name = "pedido_id")
 	@MapsId //o id do pedido deve ser o mesmo do pagamento
