@@ -53,7 +53,7 @@ public class Cliente implements Serializable {
 		this.nome = nome;
 		this.setEmail(email);
 		this.cpfOuCnpj = cpfOuCnpj;
-		this.tipo = (tipo == null) ? null : tipo.getCod(); //operador ternario
+		this.tipo = (tipo == null) ? null : tipo.getCod(); //operador ternario para aceitar valor nulos
 	}
 
 	public Integer getId() {
