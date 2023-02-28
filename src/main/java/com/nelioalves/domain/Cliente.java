@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
@@ -32,7 +33,8 @@ public class Cliente implements Serializable {
 	//alteracoes feitas no construtor this e no get e set
 	private Integer tipo;
 	
-	@OneToMany(mappedBy = "cliente")
+	//o cascadetype esta permitindo a deleção em cascata do endereco, no caso do pedido iisso nao é possivel
+	@OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
 	private List<Endereco> enderecos = new ArrayList<>();
 	
 	//Set é um conjunto que nao aceita repeticao
