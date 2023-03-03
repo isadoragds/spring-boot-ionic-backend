@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Profile;
 
 import com.nelioalves.services.DBService;
 import com.nelioalves.services.EmailService;
-import com.nelioalves.services.MockEmailService;
+import com.nelioalves.services.SmtpEmailService;
 
 @Configuration
 @Profile("test")
@@ -24,10 +24,16 @@ public class TestConfig {
 		return true;
 	}
 	
+	//DESBLOQUEAR ESTE METODO QUANDO FOR TESTAR O EMAIL NO LOG
 	//para instanciar a interface
-	@Bean //anotacao torna o metodo disponivel como componente no sistema
+//	@Bean //anotacao torna o metodo disponivel como componente no sistema
+	//public EmailService emailService() {
+	//	return new MockEmailService();
+	//}
+	
+	@Bean
 	public EmailService emailService() {
-		return new MockEmailService();
+		return new SmtpEmailService();
 	}
 	
 }
