@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.nelioalves.services.exceptions.ObjectNotFoundException;
 import com.nelioalves.domain.Cidade;
 import com.nelioalves.domain.Cliente;
 import com.nelioalves.domain.Endereco;
@@ -90,6 +91,20 @@ public class ClienteService {
 	public List<Cliente> findAll() {
 		return repo.findAll();
 	}
+	
+	public Cliente findByEmail(String email) {
+		UserSS user = UserService.authenticated();
+		if (user == null || !user.hasRole(Perfil.ADMIN) && !email.equals(user.getUsername())) {
+			throw new AuthorizationException("Acesso negado");
+		}
+
+		Cliente obj = repo.findByEmail(email);
+		if (obj == null) {
+			throw new ObjectNotFoundException(
+					"Objeto não encontrado! Id: " + user.getId() + ", Tipo: " + Cliente.class.getName());
+		}
+		return obj;
+	}
 
 	public Page<Cliente> findPage(int page, int linesPerPage, Direction direction, String orderBy) {
 		PageRequest pageRequest = PageRequest.of(page, linesPerPage, direction, orderBy);
@@ -137,4 +152,6 @@ public class ClienteService {
 		String fileName = prefix + user.getId() + ".jpg";
 		return s3Service.uploadFile(imageService.getInputStream(jpgImage, "jpg"), fileName, "image");
 	}
+	
+	
 }
