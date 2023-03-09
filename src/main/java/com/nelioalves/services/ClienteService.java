@@ -1,5 +1,6 @@
 package com.nelioalves.services;
 
+import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
@@ -11,6 +12,7 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.nelioalves.domain.Cidade;
 import com.nelioalves.domain.Cliente;
@@ -35,6 +37,8 @@ public class ClienteService {
 	private EnderecoRepository enderecoRepository;
 	@Autowired
 	private BCryptPasswordEncoder pe;
+	@Autowired
+	private S3Service s3Service;
 	
 	//recebe um id e retorna o cliente correspondente. se nao encontrar lanca excecao
 	public Cliente find(Integer id) {
@@ -104,6 +108,11 @@ public class ClienteService {
 	private void updateData(Cliente newObj, Cliente obj) {
 		newObj.setNome(obj.getNome());
 		newObj.setEmail(obj.getEmail());
+	}
+	
+	//metodo para fazer upload de foto de perfil de cliente
+	public URI uploadProfilePicture(MultipartFile multipartFile) {
+		return s3Service.uploadFile(multipartFile);
 	}
 	
 }
